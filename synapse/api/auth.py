@@ -78,6 +78,7 @@ class Auth(object):
         register_cache("cache", "token_cache", self.token_cache)
 
         self._account_validity = hs.config.account_validity
+        self._server_notices_id = hs.config.server
 
     @defer.inlineCallbacks
     def check_from_context(self, room_version: str, event, context, do_sig_check=True):
@@ -681,6 +682,7 @@ class Auth(object):
             user_type(str|None): If present, is used to decide whether to check against
                 certain blocking reasons like MAU.
         """
+        return
 
         # Never fail an auth check for the server notices users or support user
         # This can be a problem where event creation is prohibited due to blocking
