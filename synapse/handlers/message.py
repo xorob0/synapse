@@ -1093,6 +1093,9 @@ class EventCreationHandler(object):
         for room_id in room_ids:
             # For each room we need to find a joined member we can use to send
             # the dummy event with.
+            logger.info(
+                "Attempting to send dummy event to resolve extremities in %s", room_id
+            )
 
             latest_event_ids = await self.store.get_prev_events_for_room(room_id)
 
