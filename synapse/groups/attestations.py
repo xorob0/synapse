@@ -208,6 +208,5 @@ class GroupAttestionRenewer(object):
                     "Error renewing attestation of %r in %r", user_id, group_id
                 )
 
-        await yieldable_gather_results(
-            _renew_attestation, ((row["group_id"], row["user_id"]) for row in rows)
-        )
+        for row in rows:
+            await _renew_attestation((row["group_id"], row["user_id"]))
