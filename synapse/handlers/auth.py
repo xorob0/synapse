@@ -493,12 +493,18 @@ class AuthHandler(BaseHandler):
             res = await checker.check_auth(authdict, clientip=clientip)
             return res
 
-        # build a v1-login-style dict out of the authdict and fall back to the
-        # v1 code
-        user_id = authdict.get("user")
+        # Retrieve the user ID from the authdict
+
+        # Check for an identifier dict
+        identifier = authdict.get("identifier", {})
+        if "type" in identifier and identifier["type"] == "m.id.user":
+            user_id = identifier.get("user")
+        else:
+            # Backwards compatibility for the old "user" parameter
+            user_id = authdict.get("user")
 
         if user_id is None:
-            raise SynapseError(400, "", Codes.MISSING_PARAM)
+            raise SynapseError(400, "Valid user ID not found", Codes.MISSING_PARAM)
 
         (canonical_id, callback) = await self.validate_login(user_id, authdict)
         return canonical_id
