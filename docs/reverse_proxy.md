@@ -76,6 +76,20 @@ canonicalise/normalise the URI.
           }
         }
 
+### Caddy V2
+
+        matrix.example.com {
+          reverse_proxy {
+            to http://localhost:8008 
+          }
+        }
+
+        example.com:8448 {
+          reverse_proxy {
+            to http://localhost:8008 
+          }
+        }
+
 ### Apache
 
         <VirtualHost *:443>
